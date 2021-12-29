@@ -1,2 +1,15 @@
 .vs/
 Backup/
+_gsdata_/
+TDImportCache/
+.misc/
+.pre_ready/
+.ready/
+.source_vector/
+.sources.audio/
+.sources.img/
+.sources.models/
+.sources.vid/
+.sub_patches/
+_required_software/
+platform-tools/
