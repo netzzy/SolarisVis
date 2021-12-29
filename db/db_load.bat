@@ -1,0 +1,1 @@
+mysql.exe -uroot curycue <08_12_21_checkpoint.sql

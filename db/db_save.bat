@@ -1,0 +1,1 @@
+c:\xampp\mysql\bin\mysqldump.exe --add-drop-table -uroot curycue >curycue_23_10____.sql
