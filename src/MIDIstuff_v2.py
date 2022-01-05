@@ -1,4 +1,4 @@
-import os
+﻿import os
 import re
 class InternalClass:
 
@@ -8,7 +8,7 @@ class InternalClass:
 		self.slidersRoute=dict([['s1', ['/project1/CuryCueUI/BotMenu/ProjBrightSlider', "Value0"]],
 		['s3', ['/project1/CuryCueUI/BotMenu/LaserGeoCarve', "Value0"]],
 		['s2', ['/project1/CuryCueUI/BotMenu/LaserBright', "Value0"]],
-		['s8', ['/project1/CuryCueUI/BotMenu/SpearBright', "Value0"]]
+		['s8', ['/project1/VideoProjectorContent/LaserPatterns4_4', "Annigilatorturb"]]
 		])
 		run('op("{}").Init()'.format(self.my.path), delayFrames=30)
 		return
@@ -18,7 +18,7 @@ class InternalClass:
 				op.MIDI.ProcessSlider(str(k), op("SlidersInput")[str(k)], 0)
 				ui.status="Midi init ok"
 			except: 
-				ui.status="Хуйня с MIDI"
+				ui.status="Ð¥ÑƒÐ¹Ð½Ñ Ñ MIDI"
 		
 	def Gocue(self):
 		self.MidiWave(0)
