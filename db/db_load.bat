@@ -1,1 +1,1 @@
-mysql.exe -uroot curycue <20211229-043217.sql
+mysql.exe -uroot curycue <20220105-072716.sql
