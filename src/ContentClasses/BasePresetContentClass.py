@@ -108,6 +108,12 @@ class ContentPresetBase (SceneObjectControlBase, IOP):
 		for sourcePage in protectedContentComp.customPages:
 			for sourcePar in sourcePage:
 				sourcePar.styleCloneImmune=False
+		
+		oldCustomValues=dict()
+				# save parameters in source
+		for sourcePage in mainContentComp.customPages:
+			for sourcePar in sourcePage:
+				oldCustomValues[sourcePar.name]=sourcePar.eval()
 				
 
 		oldActiveValue=0
@@ -126,9 +132,11 @@ class ContentPresetBase (SceneObjectControlBase, IOP):
 		if len(contentPreset_iPar_list)>0:
 			contentPreset_iPar=contentPreset_iPar_list[0]
 			self.CopyCustomPars(contentPreset_iPar,protectedContentComp, _link="From_ipar")
+			print ("Copy from ipar")
 
+		
 
-		self.CopyCustomPars(protectedContentComp,mainContentComp, _link="FromSourceToDest", _nosrcToConst=True)
+		self.CopyCustomPars(protectedContentComp,mainContentComp, _link="FromSourceToDest", _nosrcToConst=True, oldCustomValues=oldCustomValues)
 
 		# add preset common page
 		page=mainContentComp.appendCustomPage("PresetCommon")
@@ -157,8 +165,10 @@ class ContentPresetBase (SceneObjectControlBase, IOP):
 
 		ui.status="Успех: синхр.прес.пар. {}".format(mainContentComp.name)
 
-	def CopyCustomPars(self, _source, _dest, _link="FromSourceToDest", _nosrcToConst=False):
+	def CopyCustomPars(self, _source, _dest, _link="FromSourceToDest", _nosrcToConst=False, oldCustomValues=dict()):
+
 		# define
+
 		_dest.destroyCustomPars()
 		mainContentComp=_dest
 		protectedContentComp=_source
@@ -167,7 +177,7 @@ class ContentPresetBase (SceneObjectControlBase, IOP):
 			return
 		# copy protectedContentComp -> mainContentComp 
 		mainContentComp.copyParameters(protectedContentComp, custom=True, builtin=False)
-
+	
 		# link parameters
 		for sourcePage in protectedContentComp.customPages:
 			for sourcePar in sourcePage:
@@ -179,6 +189,7 @@ class ContentPresetBase (SceneObjectControlBase, IOP):
 					destLinkPar=getattr(protectedContentComp.par, sourcePar.name)
 					srcLinkPar=getattr(mainContentComp.par, sourcePar.name)
 					srcLinkPar.mode=ParMode.CONSTANT
+
 				elif _link=="From_ipar":
 					linkExpr="me.parent().par.{}".format(sourcePar.name)
 					destLinkPar=getattr(protectedContentComp.par, sourcePar.name)
@@ -188,8 +199,16 @@ class ContentPresetBase (SceneObjectControlBase, IOP):
 					destLinkPar=getattr(mainContentComp.par, sourcePar.name)
 					srcLinkPar=getattr(protectedContentComp.par, sourcePar.name)
 					# print (destLinkPar)
+				
 				destLinkPar.bindExpr=linkExpr
 				destLinkPar.mode=ParMode.BIND
+				if destLinkPar.name in oldCustomValues.keys():
+					destLinkPar.val=oldCustomValues[destLinkPar.name]
+
+					#print ("{}:{}".format(destLinkPar.name, oldCustomValues[destLinkPar.name]))
+				
+
+				# destLinkPar=srcLinkPar
 				if not _nosrcToConst:
 					srcLinkPar.mode=ParMode.CONSTANT
 				# destLinkPar.styleCloneImmune=True
@@ -200,8 +219,9 @@ class ContentPresetBase (SceneObjectControlBase, IOP):
 		if len(contentCompSearch) > 1:
 			for myItem in contentCompSearch:
 				if myItem.name!=self.ownerComp.name:
+					print ("Надо бы удалить {}".format(myItem.path))
 					myItem.destroy()
-					# print ("Надо бы удалить {}".format(myItem.path))
+					
 
 		pass
 	@property

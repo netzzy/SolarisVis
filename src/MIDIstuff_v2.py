@@ -6,12 +6,20 @@ class InternalClass:
 		self.my=me.parent()
 #		self.my.par.Exportmode=0
 		self.slidersRoute=dict([['s1', ['/project1/CuryCueUI/BotMenu/ProjBrightSlider', "Value0"]],
-		['s2', ['/project1/CuryCueUI/BotMenu/LaserGeoCarve', "Value0"]],
-		['s3', ['/project1/CuryCueUI/BotMenu/LaserBright', "Value0"]],
+		['s3', ['/project1/CuryCueUI/BotMenu/LaserGeoCarve', "Value0"]],
+		['s2', ['/project1/CuryCueUI/BotMenu/LaserBright', "Value0"]],
 		['s8', ['/project1/CuryCueUI/BotMenu/SpearBright', "Value0"]]
 		])
-		
+		run('op("{}").Init()'.format(self.my.path), delayFrames=30)
 		return
+	def Init(self):
+		for k in self.slidersRoute.keys():
+			try:
+				op.MIDI.ProcessSlider(str(k), op("SlidersInput")[str(k)], 0)
+				ui.status="Midi init ok"
+			except: 
+				ui.status="Хуйня с MIDI"
+		
 	def Gocue(self):
 		self.MidiWave(0)
 		op.curycue.Gonextcue()
