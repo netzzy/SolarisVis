@@ -269,10 +269,12 @@ class CuryCueClass (CuryCueStructsDef, MysqlBase, CuryCueConnector, UtilsClass, 
         # self.CueChangeByRow(val)
         self.UpdateCueListRender()
         self.RunCue(self.LocalCueDataByID[int(self.CurrentCueID)], momentary=1)
-
+    def GetActiveEvaluators(self):
+        return self.q.evaluators
     def UpdateEveryFrame(self):
         self.q.UpdateEveryFrame()
         me.iop.activeparsrender.cook(force=True)
+        me.iop.active_evaluators.cook(force=True)
         if self.ExportMode == "ValueExport":
             self.ExportCopyAllPars()
         elif self.ExportMode == "ChopExport" and self.chopExportDisabled is not True:

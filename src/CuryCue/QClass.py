@@ -10,10 +10,6 @@ from random import randint
 # UpdateEveryFrame ()
 # Forcestop ()
 
-# TODO stop by cue id 
-# TODO store par and fix id 
-# TODO export method 
-
 class QClass:
     class FadeEvaluator:
         def __init__(self, name, task, qtime, isDelayEvaluator=False):
